@@ -8,7 +8,7 @@
         <MyButton title="subtração"
         @update="$emit('change-count', 'decrement', 1)"
         />
-        <MyButton tittle="resetar"
+        <MyButton title="resetar"
         @update="$emit('change-count', 'reset')"
         />
     </div>
