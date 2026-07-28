@@ -2,9 +2,9 @@
 
 <template>
   <div id="container-box">
-    <MyBox />
-    <MyBox />
-    <MyBox />
+    <MyBox name="bru" age="19" status="active" />
+    <MyBox name="daniel" age="19" status="inactive" />
+    <MyBox name="anne" age="19" status="inactive" />
   </div>
 
 </template>
@@ -30,12 +30,13 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 }
-#container-box{
-        display: flex;
-        flex-direction: row;
-        gap: 10px;
-        border: 1px solid black;
-        padding: 10px;
-        justify-content: center;
-    }
+
+#container-box {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  border: 1px solid black;
+  padding: 10px;
+  justify-content: center;
+}
 </style>
