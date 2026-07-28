@@ -2,23 +2,49 @@
 
 <template>
   <div id="container-box">
-    <MyBox name="bru" age="19" status="active" />
-    <MyBox name="daniel" age="19" status="inactive" />
-    <MyBox name="anne" age="19" status="inactive" />
+    <!--<MyBox name="bru" age="19" status="active" />-->
+    <h2>{{ count }}</h2>
+    <CounterButtons @change-count="handleCountChange"/>
+
   </div>
 
 </template>
 
 <script>
 
-import MyBox from './components/MyBox.vue';
+// import MyBox from './components/MyBox.vue';
+// import MyButton from './components/MyButton.vue';
+import CounterButtons from './components/CounterButtons.vue';
 
 export default {
   name: 'App',
   components: {
-    MyBox
+    CounterButtons
+  },
+
+  data() {  // todas variáveis locais (só existe dentro do App)
+    return {
+      count: 0
+    }
+  },
+  methods: {
+    handleCountChange(action, value = 1) {
+      switch (action) {
+
+        case 'increment':
+          this.count += value
+          break
+        case 'decrement':
+          this.count -= value
+          break
+        case 'reset':
+          this.count = 0
+          break
+      }
+    }
   }
 }
+
 </script>
 
 <style>
