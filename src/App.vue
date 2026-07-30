@@ -1,11 +1,21 @@
 <!-- componentes -- Sempre comecam com <tamplate> -->
 
 <template>
+  
   <div id="container-box">
     <!--<MyBox name="bru" age="19" status="active" />-->
-    <h2>{{ count }}</h2>
-    <CounterButtons @change-count="handleCountChange"/>
+    <h2 :style="{ color: changeColorCount }">
+      {{ count }}
+    </h2>
 
+    <CounterButtons 
+    :count-value="count"
+    @change-count="handleCountChange"
+    />
+
+    <p :style="{ color: changeColorCount }">
+      {{ countState }}
+    </p>
   </div>
 
 </template>
@@ -42,7 +52,20 @@ export default {
           break
       }
     }
+  },
+  computed: { // variaveis calculadas baseadas na reatividade. Sempre que algo mudar, ela tambem muda.
+    changeColorCount() {
+      if (this.count === 0) return 'black'
+      if (this.count > 0) return 'green'
+      return 'red'
+    },
+    countState() {
+      if (this.count === 0) return ''
+      if (this.count > 0) return 'Positivo'
+      return 'Negativo'
+    }
   }
+  
 }
 
 </script>
