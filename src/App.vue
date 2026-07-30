@@ -34,7 +34,7 @@ export default {
 
   data() {  // todas variáveis locais (só existe dentro do App)
     return {
-      count: 0
+      count: Number(localStorage.getItem('count') )|| 0
     }
   },
   methods: {
@@ -53,7 +53,7 @@ export default {
       }
     }
   },
-  computed: { // variaveis calculadas baseadas na reatividade. Sempre que algo mudar, ela tambem muda.
+  computed: { // variaveis calculadas baseadas na reatividade. Sempre que algo mudar, ela tambem muda. propriedades derivadas
     changeColorCount() {
       if (this.count === 0) return 'black'
       if (this.count > 0) return 'green'
@@ -64,8 +64,15 @@ export default {
       if (this.count > 0) return 'Positivo'
       return 'Negativo'
     }
+  },
+  watch: {
+    count(newValue) {
+      localStorage.setItem('count', newValue)
+    },
+    changeColorCount(newValue) {
+      alert(`cor selecionada é : ${newValue}`)
+    }
   }
-  
 }
 
 </script>
