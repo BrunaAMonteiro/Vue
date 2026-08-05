@@ -3,33 +3,20 @@
 <template>
   
   <div id="container-box">
-    <!--<MyBox name="bru" age="19" status="active" />-->
-    <h2 :style="{ color: changeColorCount }">
-      {{ count }}
-    </h2>
-
-    <CounterButtons 
-    :count-value="count"
-    @change-count="handleCountChange"
-    />
-
-    <p :style="{ color: changeColorCount }">
-      {{ countState }}
-    </p>
+    <TaskList />
   </div>
 
 </template>
 
 <script>
 
-// import MyBox from './components/MyBox.vue';
-// import MyButton from './components/MyButton.vue';
-import CounterButtons from './components/CounterButtons.vue';
+
+import TaskList from './components/TaskList.vue';
 
 export default {
   name: 'App',
   components: {
-    CounterButtons
+    TaskList
   },
 
   data() {  // todas variáveis locais (só existe dentro do App)
