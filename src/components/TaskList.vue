@@ -4,7 +4,8 @@
         <h2>Lista de Tarefas</h2>
 
         <div class="controls">
-            <button clas="bttn-add">Adicionar nova tarefa</button>
+            <button class="bttn-add">Adicionar nova tarefa</button>
+            <button class="bttn-toggle-all">Marcar Todas</button>
             <button class="bttn-clear">
                 Limpar Concluídas
             </button>
@@ -14,12 +15,21 @@
 
             <div class="pending-tasks">
                 <h3>Tarefas Pendentes</h3>
-                <TaskItem />
+                <TaskItem 
+                :task="tasks[0]"
+                @toggle-done="toggleTaskDone"
+                @remove-task="removeTask"
+                />
+                
             </div>
 
             <div class="completed-tasks">
                 <h3>Tarefas Concluídas</h3>
-                <TaskItem />
+                <TaskItem 
+                :task="tasks[1]"
+                @toggle-done="toggleTaskDone"
+                @remove-task="removeTask"
+                />
             </div>
 
         </div>
@@ -39,6 +49,27 @@ export default {
     name: 'TaskList',
     components: {
         TaskItem
+    },
+    data() {
+        // simulando as tasks recebendo de uma API
+        return {
+            tasks: [
+                { id: 1234, done: false },
+                {id: 456, done: true }
+            ]
+        }
+    },
+    methods: {
+        removeTask(taskId) {
+            this.tasks = this.tasks.filter(task => task.id != taskId)
+            // atualiza a lista tasks e dessa lista retorna todo mundo, onde o task.id é diferente do que ele está recebendo. Se recebe 1234, retorna 4321.
+        },
+        toggleTaskDone(taskId) {
+            const task = this.tasks.find(t => t.id === taskId);
+            if (task) {
+                task.done = !task.done;
+            }
+        }
     }
     
 }
@@ -54,10 +85,10 @@ export default {
 }
 
 h2 {
-    color:blueviolet;
+    color:rgb(35, 36, 32);
     margin-bottom: 20px;
     padding-bottom: 10px;
-    border-bottom: 2px solid rgb(82, 47, 163);
+    border-bottom: 2px solid rgb(47, 45, 51);
     text-align: center;
 }
 
@@ -80,39 +111,38 @@ button {
 }
 
 .bttn-add {
-    background-color: plum;
-    color: rgb(81, 66, 145);
+    background-color: rgba(98, 201, 38, 0.808);
+    color: rgb(255, 255, 255);
 }
 
 .bttn-add:hover {
-    background-color: rgb(231, 116, 247);
+    background-color: rgba(90, 238, 70, 0.945);
     transform: translateY(-2px);
 }
 
 .bttn-toggle-all {
-    background-color: plum;
-    color: rgb(182, 120, 211);
+    background-color:  rgb(104, 190, 216);
+    color: #fefeff;
 }
 
 .bttn-toggle-all:hover {
-    background-color: rgb(231, 116, 247);
+    background-color: rgb(116, 213, 243);
     transform: translateY(-2px);
 }
 
 .bttn-clear {
-    background-color: plum;
-    color: #2719aa;
+    background-color: rgb(252, 130, 126);
+    color: #faf9fd;
 }
 
 .bttn-clear:hover {
-    background-color: rgb(231, 116, 247);
+    background-color:rgb(250, 139, 139);
     transform: translateY(-2px);
 }
 
-.task-container {
+.tasks-container {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 30px;
+    gap: 15px;
     margin-bottom: 30px;
 }
 
@@ -122,19 +152,19 @@ button {
 }
 
 .pending-tasks {
-    background-color: rgb(212, 76, 76);
-    border:  2px solid #fd2323;
+    background-color: rgb(241, 239, 239);
+    border:  2px solid #eeeded;
 }
 
 .completed-tasks {
-    background-color: rgb(171, 238, 132);
-    border: 2px solid #43f30e;
+    background-color: rgb(229, 253, 215);
+    border:  2px solid #daf5bc;
 }
 
 .pending-tasks h3, .completed-tasks h3 {
     margin-top: 0;
     margin-bottom: 15px;
-    color: rgb(37, 36, 10);
+    color: rgb(34, 34, 33);
     text-align: center;
 }
 

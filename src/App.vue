@@ -40,7 +40,9 @@ export default {
       }
     }
   },
-  computed: { // variaveis calculadas baseadas na reatividade. Sempre que algo mudar, ela tambem muda. propriedades derivadas
+  computed: {
+
+    // variaveis calculadas baseadas na reatividade. Sempre que algo mudar, ela tambem muda. propriedades derivadas
     changeColorCount() {
       if (this.count === 0) return 'black'
       if (this.count > 0) return 'green'
