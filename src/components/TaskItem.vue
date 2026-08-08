@@ -100,5 +100,3 @@ export default {
 }
 
 </style>
-
-<!-- muda as cores e ve se ta certo mesmo, pq ta faltando um bttn -->

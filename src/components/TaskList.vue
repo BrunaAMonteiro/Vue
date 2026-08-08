@@ -32,6 +32,13 @@
                 />
             </div>
 
+            <div class="watch-output">
+                <h3>Saída do Watch ( Console )</h3>
+                <div class="log-container">
+                    {{ watchLogs }}
+                </div>
+            </div>
+
         </div>
 
         <span>Aqui virá o componente dos contadores</span>
@@ -41,6 +48,7 @@
 </template>
 
 <script>
+
 
 import TaskItem from './TaskItem.vue'
 
@@ -56,19 +64,43 @@ export default {
             tasks: [
                 { id: 1234, done: false },
                 {id: 456, done: true }
-            ]
+            ],
+            watchLogs: []
         }
     },
     methods: {
         removeTask(taskId) {
             this.tasks = this.tasks.filter(task => task.id != taskId)
-            // atualiza a lista tasks e dessa lista retorna todo mundo, onde o task.id é diferente do que ele está recebendo. Se recebe 1234, retorna 4321.
+            // atualiza a lista tasks e dessa lista retorna todo mundo, onde o task.id é diferente do que ele está recebendo. Se recebe 1234, retorna 456.
         },
         toggleTaskDone(taskId) {
             const task = this.tasks.find(t => t.id === taskId);
             if (task) {
                 task.done = !task.done;
             }
+        },
+        logWatch(message) {
+            this.watchLogs.unshift(`[${new Date().toLocaleDateString()}] ${message}`)
+        }
+    },
+    watch: { // escuta a lista de tarefas (tasks)
+        tasks: {
+            handler(newVal, oldVal) {
+                const message = `Lista de Tasks mudou! Itens: ${newVal.length}`
+                this.logWatch(message)
+                if (oldVal) {
+                    const modified = newVal.filter(n => {
+                        const oldTask = oldVal.find(o => o.id === n.id);
+                        return oldTask && JSON.stringify(n) !== JSON.stringify(oldTask); // operação ternária
+                    })
+                    if (modified.length > 0) {
+                        const modifyMsg = `Tarefas modificadas: ${modified.map(t => t.id).join(', ')}`
+                        this.logWatch(modifyMsg)
+                    }
+                }
+            },
+            deep: true,
+            immediate: true
         }
     }
     
@@ -166,6 +198,23 @@ button {
     margin-bottom: 15px;
     color: rgb(34, 34, 33);
     text-align: center;
+}
+
+.watch-output {
+    background-color: #2c3e50;
+    color: white;
+    padding: 15px;
+    border-radius: 6px;
+}
+
+.log-container {
+    max-height: 200px;
+    overflow-y: auto;
+    background-color: #1a242f;
+    padding: 10px;
+    border-radius: 4px;
+    margin-top: 10px;
+    font-family: monospace;
 }
 
 </style>
