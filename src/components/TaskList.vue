@@ -268,7 +268,7 @@ button {
     font-family: monospace;
 }
 
-.add-task-container {
+.add-task-input {
     display: flex;
     gap: 10px;
     justify-content: center;
