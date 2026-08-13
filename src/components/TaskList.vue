@@ -15,21 +15,28 @@
 
             <div class="pending-tasks">
                 <h3>Tarefas Pendentes</h3>
+
                 <TaskItem 
-                :task="tasks[0]"
+                v-for="task in pandindTask"
+                :key="task.id"
+                :task="task"
                 @toggle-done="toggleTaskDone"
                 @remove-task="removeTask"
                 />
-                
+
             </div>
 
             <div class="completed-tasks">
                 <h3>Tarefas Concluídas</h3>
+                
                 <TaskItem 
-                :task="tasks[1]"
+                v-for="task in completedTasks"
+                :key="task.id"
+                :task="task"
                 @toggle-done="toggleTaskDone"
                 @remove-task="removeTask"
                 />
+
             </div>
 
             <div class="watch-output">
@@ -101,6 +108,14 @@ export default {
             },
             deep: true,
             immediate: true
+        }
+    },
+    computed: {
+        completedTasks() {
+            return this.tasks.filter(task => task.done) // done true
+        },
+        pandindTask(){
+            return this.tasks.filter(task => !task.done) // done false
         }
     }
     
