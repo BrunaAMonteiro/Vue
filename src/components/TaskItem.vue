@@ -3,7 +3,7 @@
     <div class="task-item">
 
         <span class="task-id"># {{ task?.id }}</span> <!-- propriedade-->
-        <span class="task-status">{{ statusText }}</span> <!-- propriedade-->
+        <span class="task-id">{{ task?.title }}</span>
 
         <button 
         class="bttn-toggle" 
@@ -47,13 +47,8 @@ export default {
             return this.task?.done
                 ? 'Desfazer'
                 : 'Concluir'
-        },
-        statusText() {
-            return this.task?.done
-                ? 'Concluída'
-                : 'Pendente'
         }
-    },
+    }
 }
 </script>
 

@@ -11,6 +11,25 @@
             </button>
         </div>
 
+        <div class="add-task-input"> <!-- formulário-->
+
+        <!--Todas as vezes que eu digitar nesse input, automaticamente o que for digitado será preenchido nessa variavel (newTaskTitle) -->
+            <input 
+                v-model="newTaskTitle"
+                type="text"
+                placeholder="Digite o titulo da tarefa"
+                class="task-input"
+            />
+
+            <button 
+                class="bttn-add"
+                @click="addTask"
+            >
+                Adicionar
+            </button>
+
+        </div>
+
         <div class="tasks-container">
 
             <div class="pending-tasks">
@@ -69,10 +88,11 @@ export default {
         // simulando as tasks recebendo de uma API
         return {
             tasks: [
-                { id: 1234, done: false },
-                {id: 456, done: true }
+                { id: 1234, title: 'Tarefa 1' ,done: false },
+                {id: 456, title: 'Tarefa 2' ,done: true }
             ],
-            watchLogs: []
+            watchLogs: [],
+            newTaskTitle: ''
         }
     },
     methods: {
@@ -88,7 +108,23 @@ export default {
         },
         logWatch(message) {
             this.watchLogs.unshift(`[${new Date().toLocaleDateString()}] ${message}`)
+        },
+        addTask() {
+            // se o valor do newTaskTitle, sem os espaços, for vazio significa que o usuário não digitou nada, então não quero que execute a ação
+            // .trim() => remove os espaços
+
+            if (this.newTaskTitle.trim() === '') return
+
+            this.tasks.push({
+                id: Date.now(),
+                title: this.newTaskTitle.trim(),
+                done: false
+            })
+
+            this.newTaskTitle = ''
         }
+
+
     },
     watch: { // escuta a lista de tarefas (tasks)
         tasks: {
@@ -230,6 +266,19 @@ button {
     border-radius: 4px;
     margin-top: 10px;
     font-family: monospace;
+}
+
+.add-task-container {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.task-input {
+    padding: 10px;
+    border: 1px solid #f5f1f1;
+    width: 300px;
 }
 
 </style>
