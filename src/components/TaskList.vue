@@ -4,14 +4,27 @@
         <h2>Lista de Tarefas</h2>
 
         <div class="controls">
-            <button class="bttn-add">Adicionar nova tarefa</button>
-            <button class="bttn-toggle-all">Marcar Todas</button>
-            <button class="bttn-clear">
+            <button 
+                :class="bttnAddClass"
+                @click="handlerShowForm">
+                {{ bttnAddTask }}
+            </button>
+
+            <button 
+                class="bttn-toggle-all">
+                Marcar Todas
+            </button>
+
+            <button 
+                class="bttn-clear">
                 Limpar Concluídas
             </button>
         </div>
 
-        <div class="add-task-input"> <!-- formulário-->
+        <div 
+            v-if="showForm"
+            class="add-task-input"
+        > <!-- formulário-->
 
         <!--Todas as vezes que eu digitar nesse input, automaticamente o que for digitado será preenchido nessa variavel (newTaskTitle) -->
             <input 
@@ -23,9 +36,8 @@
 
             <button 
                 class="bttn-add"
-                @click="addTask"
-            >
-                Adicionar
+                @click="addTask">
+                    Adicionar
             </button>
 
         </div>
@@ -75,7 +87,6 @@
 
 <script>
 
-
 import TaskItem from './TaskItem.vue'
 
 export default {
@@ -92,7 +103,8 @@ export default {
                 {id: 456, title: 'Tarefa 2' ,done: true }
             ],
             watchLogs: [],
-            newTaskTitle: ''
+            newTaskTitle: '',
+            showForm: false // falso para mostrar o fomrulário
         }
     },
     methods: {
@@ -122,6 +134,9 @@ export default {
             })
 
             this.newTaskTitle = ''
+        },
+        handlerShowForm() {
+            this.showForm = !this.showForm
         }
 
 
@@ -152,6 +167,16 @@ export default {
         },
         pandindTask(){
             return this.tasks.filter(task => !task.done) // done false
+        },
+        bttnAddTask() {
+            return this.showForm
+                ? 'Fechar'
+                : 'Adicionar nova tarefa'
+        },
+        bttnAddClass() {
+            return this.showForm
+                ? 'bttn-clear'
+                : 'bttn-add'
         }
     }
     
