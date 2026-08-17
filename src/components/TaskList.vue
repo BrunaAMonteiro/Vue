@@ -47,26 +47,55 @@
             <div class="pending-tasks">
                 <h3>Tarefas Pendentes</h3>
 
-                <TaskItem 
-                v-for="task in pandindTask"
-                :key="task.id"
-                :task="task"
-                @toggle-done="toggleTaskDone"
-                @remove-task="removeTask"
-                />
+                <p v-if="pendingTasks.length === 0">
+                Nenhuma tarefa pendente.</p>
 
+                <div v-else>  
+                <TaskItem 
+                    v-for="task in pendingTasks"
+                    :key="task.id"
+                    :task="task"
+                    @toggle-done="toggleTaskDone"
+                    @remove-task="removeTask"
+                />
+                </div>
             </div>
 
             <div class="completed-tasks">
                 <h3>Tarefas Concluídas</h3>
+
+                <p v-if="completedTasks.length === 0">
+                    Nenhuma tarefa concluída.
+                </p>
                 
+                <div v-else>
                 <TaskItem 
-                v-for="task in completedTasks"
-                :key="task.id"
-                :task="task"
-                @toggle-done="toggleTaskDone"
-                @remove-task="removeTask"
+                    v-for="task in completedTasks"
+                    :key="task.id"
+                    :task="task"
+                    @toggle-done="toggleTaskDone"
+                    @remove-task="removeTask"
                 />
+                </div>
+            </div>
+
+            <div>
+                <h3>Resumo</h3>
+                <p v-if="tasks.length === 0">
+                    Você ainda não possui tarefas.
+                </p>
+
+                <p v-else-if="pendingTasks.length > 0 && completedTasks.length === 0">
+                    Você tem {{ pendingTasks.length }} tarefas pendentes.
+                </p>
+
+                <p v-else-if="completedTasks.length > 0 && pendingTasks.length === 0">
+                    Todas as tarefas concluídas.
+                </p>
+
+                <p v-else>
+                    Você tem {{ pendingTasks.length }} pendente(s) e {{ completedTasks.length }} concluída(s)!
+                </p>
 
             </div>
 
@@ -107,7 +136,7 @@ export default {
             showForm: false // falso para mostrar o fomrulário
         }
     },
-    methods: {
+    methods: { // cria funções comuns
         removeTask(taskId) {
             this.tasks = this.tasks.filter(task => task.id != taskId)
             // atualiza a lista tasks e dessa lista retorna todo mundo, onde o task.id é diferente do que ele está recebendo. Se recebe 1234, retorna 456.
@@ -134,6 +163,7 @@ export default {
             })
 
             this.newTaskTitle = ''
+            this.showForm = false
         },
         handlerShowForm() {
             this.showForm = !this.showForm
@@ -141,7 +171,8 @@ export default {
 
 
     },
-    watch: { // escuta a lista de tarefas (tasks)
+    watch: { //  Observa a mudança de uma var específica 
+            // -- escuta a lista de tarefas (tasks) 
         tasks: {
             handler(newVal, oldVal) {
                 const message = `Lista de Tasks mudou! Itens: ${newVal.length}`
@@ -161,11 +192,11 @@ export default {
             immediate: true
         }
     },
-    computed: {
+    computed: { // cria valores salvos na memória com base em outros dados
         completedTasks() {
             return this.tasks.filter(task => task.done) // done true
         },
-        pandindTask(){
+        pendingTasks(){
             return this.tasks.filter(task => !task.done) // done false
         },
         bttnAddTask() {
