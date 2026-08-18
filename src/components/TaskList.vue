@@ -1,7 +1,16 @@
 <template> 
 
     <div class="task-list-container">
-        <h2>Lista de Tarefas</h2>
+        <h2 v-once>Lista de Tarefas</h2> 
+        <!--V-ONCE: renderiza o elemento apenas uma vez
+        Usa-se em textos estáticos:cabecalhos, label, logotipos.
+        
+        -- V-MEMO: renderiza a tarefa quando ela é alterada
+        Se ela não for alterada, ela não será renderizada
+        permite que um componente só seja atualizado quando suas dependências específicas mudam: título, status da tarefa etc.
+
+        renderiza se mudar task.done
+        -->
 
         <div class="controls">
             <button 
@@ -45,7 +54,7 @@
         <div class="tasks-container">
 
             <div class="pending-tasks">
-                <h3>Tarefas Pendentes</h3>
+                <h3 v-once>Tarefas Pendentes</h3>
 
                 <p v-if="pendingTasks.length === 0">
                 Nenhuma tarefa pendente.</p>
@@ -53,6 +62,7 @@
                 <div v-else>  
                 <TaskItem 
                     v-for="task in pendingTasks"
+                    v-memo="[task.done]" 
                     :key="task.id"
                     :task="task"
                     @toggle-done="toggleTaskDone"
@@ -62,7 +72,7 @@
             </div>
 
             <div class="completed-tasks">
-                <h3>Tarefas Concluídas</h3>
+                <h3 v-once>Tarefas Concluídas</h3>
 
                 <p v-if="completedTasks.length === 0">
                     Nenhuma tarefa concluída.
@@ -71,6 +81,7 @@
                 <div v-else>
                 <TaskItem 
                     v-for="task in completedTasks"
+                    v-memo="[task.done]" 
                     :key="task.id"
                     :task="task"
                     @toggle-done="toggleTaskDone"
@@ -80,7 +91,7 @@
             </div>
 
             <div>
-                <h3>Resumo</h3>
+                <h3 v-once>Resumo</h3>
                 <p v-if="tasks.length === 0">
                     Você ainda não possui tarefas.
                 </p>
@@ -100,7 +111,7 @@
             </div>
 
             <div class="watch-output">
-                <h3>Saída do Watch ( Console )</h3>
+                <h3 v-once>Saída do Watch ( Console )</h3>
                 <div class="log-container">
                     {{ watchLogs }}
                 </div>
